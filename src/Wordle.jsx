@@ -200,7 +200,7 @@ const Wordle = () => {
                                     key={key}
                                     onClick={() => handleVirtualKeyPress(key)}
                                     className={`
-                    px-1 py-4 rounded font-bold text-xs sm:text-sm font-mono 
+                    px-1 py-4 rounded font-bold text-sm font-mono 
                     min-w-[28px] sm:min-w-[36px] flex-1 max-w-[64px]
                     ${status === 'correct' ? 'bg-green-500 text-white' :
                                         status === 'present' ? 'bg-yellow-500 text-white' :
