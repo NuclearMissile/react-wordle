@@ -76,9 +76,9 @@ const Wordle = () => {
     const handleVirtualKeyPress = (key) => {
         if (gameStatus !== 'playing') return;
 
-        if (key === 'ENTER') {
+        if (key === 'EN') {
             submitGuess();
-        } else if (key === 'CLEAR') {
+        } else if (key === 'CL') {
             setCurrentGuess('');
         } else if (key === '⌫') {
             setCurrentGuess(prev => prev.slice(0, -1));
@@ -151,7 +151,7 @@ const Wordle = () => {
     const keyboard = [
         ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
         ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', '⌫'],
-        ['ENTER', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'CLEAR']
+        ['EN', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'CL']
     ];
 
     return (
@@ -190,7 +190,7 @@ const Wordle = () => {
             </div>
 
             {/* Keyboard */}
-            <div className="flex flex-col gap-2 mb-6">
+            <div className="flex flex-col gap-1 mb-6 px-2 w-full max-w-lg">
                 {keyboard.map((row, rowIndex) => (
                     <div key={rowIndex} className="flex gap-1 justify-center">
                         {row.map((key) => {
@@ -200,7 +200,8 @@ const Wordle = () => {
                                     key={key}
                                     onClick={() => handleVirtualKeyPress(key)}
                                     className={`
-                    px-4 py-4 rounded font-bold text-sm font-mono
+                    px-1 py-4 rounded font-bold text-xs sm:text-sm font-mono 
+                    min-w-[28px] sm:min-w-[36px] flex-1 max-w-[64px]
                     ${status === 'correct' ? 'bg-green-500 text-white' :
                                         status === 'present' ? 'bg-yellow-500 text-white' :
                                             status === 'absent' ? 'bg-gray-500 text-white' :
