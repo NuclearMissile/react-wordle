@@ -194,7 +194,7 @@ const Wordle = () => {
                 {keyboard.map((row, rowIndex) => (
                     <div key={rowIndex} className="flex gap-1 justify-center">
                         {row.map((key) => {
-                            const status = key.length === 1 ? getKeyStatus(key) : 'special';
+                            const status = key.match(/^[a-zA-Z]$/) ? getKeyStatus(key) : 'special';
                             return (
                                 <button
                                     key={key}
