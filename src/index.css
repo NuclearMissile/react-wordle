@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+.shake-on-error {
+    animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+    border-color: #ef4444;
+}
+
+/* Prevent animation from affecting layout */
+.animate-shake,
+.animate-shake-slow,
+.animate-shake-fast,
+.animate-shake-infinite,
+.animate-shake-vertical,
+.animate-shake-both {
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
