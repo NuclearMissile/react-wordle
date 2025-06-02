@@ -25,14 +25,37 @@ const Wordle = () => {
         setShakeRow(-1);
     };
 
-    const getLetterStatus = (letter, position) => {
+    const getLetterStatus = (letter, position, guessWord) => {
+        // For a complete guess word, we need to account for letter frequency
         if (targetWord[position] === letter) {
             return 'correct';
-        } else if (targetWord.includes(letter)) {
-            return 'present';
-        } else {
+        }
+
+        // Count occurrences of the letter in the target word
+        const targetLetterCount = targetWord.split('').filter(l => l === letter).length;
+
+        // Count correct positions of this letter in the guess
+        const correctPositions = guessWord.split('').filter((l, i) => l === letter && targetWord[i] === letter).length;
+
+        // Count positions before the current one that are present but not correct
+        let presentPositionsBefore = 0;
+        for (let i = 0; i < position; i++) {
+            if (guessWord[i] === letter && targetWord[i] !== letter) {
+                presentPositionsBefore++;
+            }
+        }
+
+        // If we've already accounted for all occurrences of this letter
+        if (correctPositions + presentPositionsBefore >= targetLetterCount) {
             return 'absent';
         }
+
+        // If the letter exists in the target word and we haven't exceeded its count
+        if (targetWord.includes(letter)) {
+            return 'present';
+        }
+
+        return 'absent';
     };
 
     const submitGuess = useCallback(() => {
@@ -88,11 +111,21 @@ const Wordle = () => {
     };
 
     const getKeyStatus = (key) => {
+        const getLetterStatusForKeyBoard = (letter, position) => {
+            if (targetWord[position] === letter) {
+                return 'correct';
+            } else if (targetWord.includes(letter)) {
+                return 'present';
+            } else {
+                return 'absent';
+            }
+        };
+
         let status = 'unused';
         for (const guess of guesses) {
             for (let i = 0; i < guess.length; i++) {
                 if (guess[i] === key) {
-                    const letterStatus = getLetterStatus(key, i);
+                    const letterStatus = getLetterStatusForKeyBoard(key, i);
                     if (letterStatus === 'correct') return 'correct';
                     if (letterStatus === 'present' && status !== 'correct') status = 'present';
                     if (letterStatus === 'absent' && status === 'unused') status = 'absent';
@@ -113,7 +146,7 @@ const Wordle = () => {
                 if (row < guesses.length) {
                     // Completed guess
                     letter = guesses[row][col];
-                    status = getLetterStatus(letter, col);
+                    status = getLetterStatus(letter, col, guesses[row]);
                 } else if (row === currentRow && col < currentGuess.length) {
                     // Current guess
                     letter = currentGuess[col];
