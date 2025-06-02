@@ -83,10 +83,13 @@ const Wordle = () => {
         if (gameStatus !== 'playing') return;
 
         if (e.key === 'Enter') {
+            e.preventDefault();
             submitGuess();
         } else if (e.key === 'Backspace') {
+            e.preventDefault();
             setCurrentGuess(prev => prev.slice(0, -1));
         } else if (e.key.match(/^[a-zA-Z]$/) && currentGuess.length < 5) {
+            e.preventDefault();
             setCurrentGuess(prev => prev + e.key.toUpperCase());
         }
     }, [currentGuess, gameStatus, submitGuess]);
