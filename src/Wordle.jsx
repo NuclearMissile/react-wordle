@@ -60,8 +60,10 @@ const Wordle = () => {
 
     const submitGuess = useCallback(() => {
         if (currentGuess.length !== 5 || !WORD_LIST.includes(currentGuess.toUpperCase())) {
-            setShakeRow(currentRow);
-            setTimeout(() => setShakeRow(-1), 1000);
+            if (shakeRow === -1) {
+                setShakeRow(currentRow);
+                setTimeout(() => setShakeRow(-1), 600);
+            }
             return;
         }
 
@@ -77,7 +79,7 @@ const Wordle = () => {
 
         setCurrentGuess('');
         setCurrentRow(prev => prev + 1);
-    }, [currentGuess, guesses, targetWord, currentRow]);
+    }, [currentGuess, guesses, targetWord, shakeRow, currentRow]);
 
     const handleKeyPress = useCallback((e) => {
         if (gameStatus !== 'playing') return;
